@@ -1,16 +1,20 @@
-package com.kirabium.relayance.ui.activity
+package com.kirabium.relayance.ui.activity.main
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kirabium.relayance.data.DummyData
 import com.kirabium.relayance.databinding.ActivityMainBinding
+import com.kirabium.relayance.ui.activity.addCustomer.AddCustomerActivity
+import com.kirabium.relayance.ui.activity.detail.DetailActivity
 import com.kirabium.relayance.ui.adapter.CustomerAdapter
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var customerAdapter: CustomerAdapter
+    private val viewModel: CustomerListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setupBinding()
         setupCustomerRecyclerView()
         setupFab()
+        observeViewModel()
     }
 
     private fun setupFab() {
@@ -42,5 +47,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+    }
+
+    private fun observeViewModel() {
+        viewModel.customers.observe(this) { customers ->
+            println("DEBUG ViewModel -> ${customers.size} clients")
+            customerAdapter.submitList(customers)
+        }
     }
 }

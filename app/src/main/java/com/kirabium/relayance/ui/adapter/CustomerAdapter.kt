@@ -2,13 +2,21 @@ package com.kirabium.relayance.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kirabium.relayance.databinding.CustomerItemBinding
 import com.kirabium.relayance.domain.model.Customer
 
-class CustomerAdapter(private val customers: List<Customer>, private val onClick: (Customer) -> Unit) : RecyclerView.Adapter<CustomerAdapter.CustomerViewHolder>() {
+class CustomerAdapter(
+    private val customers: List<Customer>,
+    private val onClick: (Customer) -> Unit
+) : ListAdapter<Customer, CustomerAdapter.CustomerViewHolder>(CustomerDiffCallback()) {
 
-    class CustomerViewHolder(private val binding: CustomerItemBinding, val onClick: (Customer) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    class CustomerViewHolder(
+        private val binding: CustomerItemBinding,
+        val onClick: (Customer) -> Unit) : RecyclerView.ViewHolder(binding.root
+        ) {
         private var currentCustomer: Customer? = null
 
         init {
@@ -36,6 +44,14 @@ class CustomerAdapter(private val customers: List<Customer>, private val onClick
     override fun onBindViewHolder(holder: CustomerViewHolder, position: Int) {
         val customer = customers[position]
         holder.bind(customer)
+    }
+
+    class CustomerDiffCallback : DiffUtil.ItemCallback<Customer>() {
+        override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: Customer, newItem: Customer): Boolean =
+            oldItem == newItem
     }
 
     override fun getItemCount() = customers.size
