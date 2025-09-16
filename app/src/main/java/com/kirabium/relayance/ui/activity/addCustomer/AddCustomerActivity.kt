@@ -1,28 +1,29 @@
 package com.kirabium.relayance.ui.activity.addCustomer
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.kirabium.relayance.databinding.ActivityAddCustomerBinding
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kirabium.relayance.ui.composable.AddCustomerScreen
 
 class AddCustomerActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddCustomerBinding
-
+    private val viewModel: AddCustomerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupBinding()
-        setupToolbar()
-    }
+        setContent {
+            val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
-    private fun setupToolbar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    private fun setupBinding() {
-        binding = ActivityAddCustomerBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+            AddCustomerScreen(
+                uiState = uiState,
+                onNameChanged = viewModel::onNameChanged,
+                onEmailChanged = viewModel::onEmailChanged,
+                onSave = viewModel::saveCustomer,
+                onBack = { onBackPressedDispatcher.onBackPressed() }
+            )
+        }
     }
 }

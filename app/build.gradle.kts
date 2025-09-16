@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 import com.android.build.gradle.BaseExtension
 
 plugins {
@@ -13,7 +15,7 @@ tasks.withType<Test> {
 }
 android {
     namespace = "com.kirabium.relayance"
-    compileSdk = 34
+    compileSdk = 35
 
     testCoverage {
         version = "0.8.8"
@@ -22,14 +24,12 @@ android {
     defaultConfig {
         applicationId = "com.kirabium.relayance"
         minSdk = 24
-        targetSdk = 34
+        //noinspection EditedTargetSdkVersion
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        testInstrumentationRunner = "com.kirabium.relayance.test.CucumberTestRunner"
     }
 
     buildFeatures {
@@ -106,6 +106,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -115,6 +117,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.cucumber.android)
+    androidTestImplementation(libs.cucumber.picocontainer)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

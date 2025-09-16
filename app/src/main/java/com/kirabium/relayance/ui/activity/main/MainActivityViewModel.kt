@@ -20,4 +20,9 @@ class CustomerListViewModel(
     private fun loadCustomers() {
         _customers.value = repository.getCustomers()
     }
+
+    fun addCustomer(customer: Customer) {
+        repository.addCustomer(customer)
+        _customers.value = repository.getCustomers()
+    }
 }
