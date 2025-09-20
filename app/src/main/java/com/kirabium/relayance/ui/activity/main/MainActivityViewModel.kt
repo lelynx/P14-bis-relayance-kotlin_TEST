@@ -1,5 +1,6 @@
 package com.kirabium.relayance.ui.activity.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,8 @@ import com.kirabium.relayance.domain.model.Customer
 import com.kirabium.relayance.repository.CustomerRepository
 
 class CustomerListViewModel(
-    private val repository: CustomerRepository = CustomerRepository()
+    // TODO: Ici, on référence l'Object repository au lieu de créer une instance
+    private val repository: CustomerRepository = CustomerRepository
 ) : ViewModel() {
 
     private val _customers = MutableLiveData<List<Customer>>()
@@ -17,12 +19,10 @@ class CustomerListViewModel(
         loadCustomers()
     }
 
-    private fun loadCustomers() {
-        _customers.value = repository.getCustomers()
+    fun loadCustomers() {
+        // affiche le hash code de repository
+        println("DEBUG CustomerListViewModel#loadCustomers -> ${repository.hashCode()}")
+        _customers.value = repository.getCustomers().toList()
     }
 
-    fun addCustomer(customer: Customer) {
-        repository.addCustomer(customer)
-        _customers.value = repository.getCustomers()
-    }
 }

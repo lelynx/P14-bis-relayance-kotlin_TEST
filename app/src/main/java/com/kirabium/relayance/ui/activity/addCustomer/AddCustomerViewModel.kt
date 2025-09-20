@@ -20,7 +20,8 @@ data class AddCustomerUiState(
 )
 
 class AddCustomerViewModel(
-    private val repository: CustomerRepository = CustomerRepository()
+    // TODO: Ici, on référence l'object repository au lieu de créer une instance
+    private val repository: CustomerRepository = CustomerRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddCustomerUiState())

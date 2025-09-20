@@ -28,8 +28,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "com.kirabium.relayance.test.CucumberTestRunner"
+// TODO: remplacer CucumberTestRunner par AndroidJUnitRunner
+//        testInstrumentationRunner = "com.kirabium.relayance.test.CucumberTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -109,16 +110,40 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
+
+    // ANDROID TEST
     androidTestImplementation(libs.androidx.junit)
+    // ESPRESSO
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.espresso.intents)
     androidTestImplementation(libs.androidx.espresso.contrib)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.rules)
+
     androidTestImplementation(libs.cucumber.android)
     androidTestImplementation(libs.cucumber.picocontainer)
+
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // TODO: ajouter ces dépendances
+
+    // AndroidX Test Core & Extensions
+    androidTestImplementation(libs.core.ktx)
+    androidTestImplementation(libs.androidx.junit.ktx)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
+
+    // Jetpack Compose Test
+    androidTestImplementation(libs.ui.test.junit4)
+
+    // --- DEBUG IMPLEMENTATION (pour l'outillage Compose) ---
+    debugImplementation(libs.ui.tooling) // La version est gérée par la Compose BOM
+    debugImplementation(libs.ui.test.manifest) // La version est gérée par la Compose BOM
+
+
 }

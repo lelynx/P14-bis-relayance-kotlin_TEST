@@ -1,12 +1,16 @@
 package com.kirabium.relayance.ui.activity.main
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kirabium.relayance.data.DummyData
+import com.kirabium.relayance.data.DummyData.customers
 import com.kirabium.relayance.databinding.ActivityMainBinding
 import com.kirabium.relayance.ui.activity.addCustomer.AddCustomerActivity
+import com.kirabium.relayance.ui.activity.addCustomer.AddCustomerViewModel
 import com.kirabium.relayance.ui.activity.detail.DetailActivity
 import com.kirabium.relayance.ui.adapter.CustomerAdapter
 
@@ -16,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var customerAdapter: CustomerAdapter
     private val viewModel: CustomerListViewModel by viewModels()
 
+    // moi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,6 +28,16 @@ class MainActivity : AppCompatActivity() {
         setupCustomerRecyclerView()
         setupFab()
         observeViewModel()
+    }
+
+    // TODO: onResume pour rafraichir le recyclerview, après add customer
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCustomers()
+        viewModel.customers.observe(this) { customers ->
+            println("DEBUG MainActivity#onResume -> ${customers.size} clients")
+            customerAdapter.submitList(customers)
+        }
     }
 
     private fun setupFab() {
@@ -34,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCustomerRecyclerView() {
         binding.customerRecyclerView.layoutManager = LinearLayoutManager(this)
-        customerAdapter = CustomerAdapter(DummyData.customers) { customer ->
+        customerAdapter = CustomerAdapter() { customer ->
             val intent = Intent(this, DetailActivity::class.java).apply {
                 putExtra(DetailActivity.EXTRA_CUSTOMER_ID, customer.id)
             }
@@ -50,8 +65,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        // TODO:
         viewModel.customers.observe(this) { customers ->
-            println("DEBUG ViewModel -> ${customers.size} clients")
+            println("DEBUG ViewModel#observeViewModel -> ${customers.size} clients")
             customerAdapter.submitList(customers)
         }
     }

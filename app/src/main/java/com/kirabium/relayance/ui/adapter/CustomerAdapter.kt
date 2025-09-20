@@ -5,13 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.kirabium.relayance.data.DummyData.customers
 import com.kirabium.relayance.databinding.CustomerItemBinding
 import com.kirabium.relayance.domain.model.Customer
 
 class CustomerAdapter(
-    private val customers: List<Customer>,
+    // TODO: c'est submitList qui passe la liste à l'adapter
+//    private val customers: List<Customer>,
     private val onClick: (Customer) -> Unit
 ) : ListAdapter<Customer, CustomerAdapter.CustomerViewHolder>(CustomerDiffCallback()) {
+
+    /**
+     * Pour récupérer la source de données depuis l'adapter,
+     * il faut utiliser la propriété currentList.
+     */
 
     class CustomerViewHolder(
         private val binding: CustomerItemBinding,
@@ -41,8 +48,10 @@ class CustomerAdapter(
         return CustomerViewHolder(binding, onClick)
     }
 
+    // TODO: utiliser currentList
     override fun onBindViewHolder(holder: CustomerViewHolder, position: Int) {
-        val customer = customers[position]
+        val customer = currentList[position]
+
         holder.bind(customer)
     }
 
@@ -54,5 +63,9 @@ class CustomerAdapter(
             oldItem == newItem
     }
 
-    override fun getItemCount() = customers.size
+    // TODO: utiliser currentList
+    override fun getItemCount():Int{
+        println("DEBUG getItemCount() -> ${currentList.size}")
+        return currentList.size
+    }
 }

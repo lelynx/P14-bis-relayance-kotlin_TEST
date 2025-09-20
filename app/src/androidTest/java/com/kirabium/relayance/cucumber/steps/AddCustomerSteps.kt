@@ -33,7 +33,7 @@ class AddCustomerSteps {
 
     @When("I enter the name {string}")
     fun iEnterName(name: String) {
-        onView(withId(R.id.nameEditText))
+        onView(withId(R.id.nameEDT))
             .perform(typeText(name), closeSoftKeyboard())
     }
 
