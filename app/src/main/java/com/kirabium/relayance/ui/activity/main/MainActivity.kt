@@ -4,13 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kirabium.relayance.data.DummyData
-import com.kirabium.relayance.data.DummyData.customers
 import com.kirabium.relayance.databinding.ActivityMainBinding
 import com.kirabium.relayance.ui.activity.addCustomer.AddCustomerActivity
-import com.kirabium.relayance.ui.activity.addCustomer.AddCustomerViewModel
 import com.kirabium.relayance.ui.activity.detail.DetailActivity
 import com.kirabium.relayance.ui.adapter.CustomerAdapter
 
